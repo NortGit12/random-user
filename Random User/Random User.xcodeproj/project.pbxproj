@@ -143,8 +143,8 @@
 				1F54CA631EC5160600F3E32F /* AppDelegate.swift */,
 				1F54CA6D1EC5160600F3E32F /* Assets.xcassets */,
 				1F54CA721EC5160600F3E32F /* Info.plist */,
-				1F54CA671EC5160600F3E32F /* Main.storyboard */,
 				1F54CA6F1EC5160600F3E32F /* LaunchScreen.storyboard */,
+				1F54CA671EC5160600F3E32F /* Main.storyboard */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -152,9 +152,9 @@
 		1F54CA9E1EC51DC400F3E32F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				1F54CA6A1EC5160600F3E32F /* RandomUser.xcdatamodeld */,
 				1F54CAA81EC520BB00F3E32F /* Person+CoreDataClass.swift */,
 				1F54CAA91EC520BB00F3E32F /* Person+CoreDataProperties.swift */,
+				1F54CA6A1EC5160600F3E32F /* RandomUser.xcdatamodeld */,
 			);
 			name = Model;
 			sourceTree = "<group>";

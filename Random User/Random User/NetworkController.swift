@@ -36,7 +36,6 @@ class NetworkController {
         // Access the instance of the global (shared) session and build a data task (a.k.a. a GET request)
         
         let dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
-//            completion?(data, error)
             
             if let completion = completion {
                 

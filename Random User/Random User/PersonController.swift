@@ -57,9 +57,9 @@ class PersonController {
     // MARK: - CRUD Methods
     //==================================================
     
-    static func createPerson(firstName: String, lastName: String, email: String, thumbnailImageData: NSData? = nil) -> Person? {
+    static func createPerson(firstName: String, lastName: String, email: String, phone: String, thumbnailImageURL: String? = nil) -> Person? {
         
-        guard let person = Person(firstName: firstName, lastName: lastName, email: email, thumbnailImageData: thumbnailImageData) else {
+        guard let person = Person(firstName: firstName, lastName: lastName, email: email, phone: phone, thumbnailImageURL: thumbnailImageURL) else {
             NSLog("Error creating a new person.")
             return nil
         }
@@ -92,12 +92,13 @@ class PersonController {
         return person
     }
     
-    static func updatePerson(_ person: Person, firstName: String, lastName: String, email: String, thumbnailImageData: NSData? = nil) {
+    static func updatePerson(_ person: Person, firstName: String, lastName: String, email: String, phone: String, thumbnailImageURL: String? = nil) {
         
         person.firstName = firstName
         person.lastName = lastName
         person.email = email
-        person.thumbnailImageData = thumbnailImageData
+        person.phone = phone
+        person.thumbnailImageURL = thumbnailImageURL
         
         PersonController.appDelegate?.saveContext()
     }

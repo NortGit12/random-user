@@ -26,6 +26,7 @@ class RandomPeopleTableViewCell: UITableViewCell {
     // Outlets
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var phoneLabel: UILabel!
     @IBOutlet weak var profileImageview: UIImageView!
     
     //==================================================
@@ -43,6 +44,8 @@ class RandomPeopleTableViewCell: UITableViewCell {
                 self.profileImageview.image = image
             })
         }
+        
+        self.phoneLabel.text = person.phone
     }
 }
 

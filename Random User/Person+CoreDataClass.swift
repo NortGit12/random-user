@@ -20,6 +20,7 @@ public class Person: NSManagedObject {
     fileprivate static let kFirstNameKey = "first"
     fileprivate static let kLastNameKey = "last"
     fileprivate static let kNameKey = "name"
+    fileprivate static let kPhoneKey = "phone"
     fileprivate static let kPictureKey = "picture"
     fileprivate static let kThumbnailImageURLKey = "thumbnail"
 
@@ -31,7 +32,7 @@ public class Person: NSManagedObject {
     convenience init?(firstName: String
         , lastName: String
         , email: String
-        , thumbnailImageData: NSData? = nil
+        , phone: String
         , thumbnailImageURL: String? = nil
         , context: NSManagedObjectContext? = PersonController.moc) {
         
@@ -46,13 +47,10 @@ public class Person: NSManagedObject {
         // Identify the context in which we want to put the Entity
         self.init(entity: entity, insertInto: context)
         
+        self.email = email
         self.firstName = firstName
         self.lastName = lastName
-        self.email = email
-        
-        if let thumbnailImageData = thumbnailImageData {
-            self.thumbnailImageData = thumbnailImageData
-        }
+        self.phone = phone
         
         if let thumbnailImageURL = thumbnailImageURL {
             self.thumbnailImageURL = thumbnailImageURL
@@ -66,6 +64,7 @@ public class Person: NSManagedObject {
             let firstName = name[Person.kFirstNameKey] as? String,
             let lastName = name[Person.kLastNameKey] as? String,
             let email = dictionary[Person.kEmailKey] as? String,
+            let phone = dictionary[Person.kPhoneKey] as? String,
             let picture = dictionary[Person.kPictureKey] as? [String : Any],
             let thumbnailImageURL = picture[Person.kThumbnailImageURLKey] as? String else {
                 
@@ -86,6 +85,7 @@ public class Person: NSManagedObject {
         self.email = email
         self.firstName = firstName
         self.lastName = lastName
+        self.phone = phone
         self.thumbnailImageURL = thumbnailImageURL
     }
 }
