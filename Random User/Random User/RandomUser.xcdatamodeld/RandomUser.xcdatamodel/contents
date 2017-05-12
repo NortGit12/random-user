@@ -5,8 +5,9 @@
         <attribute name="firstName" attributeType="String" syncable="YES"/>
         <attribute name="lastName" attributeType="String" syncable="YES"/>
         <attribute name="thumbnailImageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="thumbnailImageURL" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Person" positionX="-63" positionY="-18" width="128" height="103"/>
+        <element name="Person" positionX="-63" positionY="-18" width="128" height="118"/>
     </elements>
 </model>

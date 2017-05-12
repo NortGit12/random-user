@@ -66,6 +66,9 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
     
     @IBAction func getRandomPeopleButtonTapped(_ sender: UIButton) {
         
+        if let quantity = self.quantity {
+            personController.getRandomPeople(quantity: quantity)
+        }
     }
     
     @IBAction func quantityStepperValueChanged(_ sender: UIStepper) {
@@ -76,6 +79,19 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
     @IBAction func resetButtonTapped(_ sender: UIButton) {
         
         setQuantityValue(self.quantityDefaultValue)
+        
+        guard let people = fetchedResultsController?.fetchedObjects as? [Person] else {
+            
+            NSLog("Error getting all people.")
+            return
+        }
+        
+        for person in people {
+            PersonController.deletePerson(person)
+        }
+        
+        refreshFetchedResults()
+        self.tableView.reloadData()
     }
     
     //==================================================
@@ -215,16 +231,6 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
         return cell
     }
     
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
@@ -234,21 +240,6 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
             }
         }
     }
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
 }
 
 

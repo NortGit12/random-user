@@ -20,6 +20,8 @@ public class Person: NSManagedObject {
     fileprivate static let kFirstNameKey = "first"
     fileprivate static let kLastNameKey = "last"
     fileprivate static let kNameKey = "name"
+    fileprivate static let kPictureKey = "picture"
+    fileprivate static let kThumbnailImageURLKey = "thumbnail"
 
     //==================================================
     // MARK: - Initializers
@@ -30,6 +32,7 @@ public class Person: NSManagedObject {
         , lastName: String
         , email: String
         , thumbnailImageData: NSData? = nil
+        , thumbnailImageURL: String? = nil
         , context: NSManagedObjectContext = PersistenceController.moc) {
         
         // Only get "Person" Entities
@@ -40,13 +43,20 @@ public class Person: NSManagedObject {
                 return nil
         }
         
-        // Identify the context we want to put the "Song" Entity in
+        // Identify the context in which we want to put the Entity
         self.init(entity: entity, insertInto: context)
         
         self.firstName = firstName
         self.lastName = lastName
         self.email = email
-        self.thumbnailImageData = thumbnailImageData
+        
+        if let thumbnailImageData = thumbnailImageData {
+            self.thumbnailImageData = thumbnailImageData
+        }
+        
+        if let thumbnailImageURL = thumbnailImageURL {
+            self.thumbnailImageURL = thumbnailImageURL
+        }
     }
     
     // Purpose: Support creating instances from JSON
@@ -54,18 +64,31 @@ public class Person: NSManagedObject {
         
         guard let name = dictionary[Person.kNameKey] as? [String : Any],
             let firstName = name[Person.kFirstNameKey] as? String,
-            let lastName = dictionary[Person.kLastNameKey] as? String,
-            let email = dictionary[Person.kEmailKey] as? String else {
+            let lastName = name[Person.kLastNameKey] as? String,
+            let email = dictionary[Person.kEmailKey] as? String,
+            let picture = dictionary[Person.kPictureKey] as? [String : Any],
+            let thumbnailImageURL = picture[Person.kThumbnailImageURLKey] as? String else {
                 
                 NSLog("Error creating Person instance from a dictionary.")
                 return nil
         }
         
-        self.init()
+        let context = PersistenceController.moc
+        
+        // Only get "Person" Entities
+        guard let entity = NSEntityDescription.entity(forEntityName: "Person"
+            , in: context) else {
+                
+                NSLog("Error attempting to access the entity in the context.")
+                return nil
+        }
+        
+        self.init(entity: entity, insertInto: context)
         
         self.email = email
         self.firstName = firstName
         self.lastName = lastName
+        self.thumbnailImageURL = thumbnailImageURL
     }
 }
 
