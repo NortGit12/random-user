@@ -19,11 +19,15 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
     let buttonCornerRadiusValue: CGFloat = 6.0
     let buttonBorderWidth: CGFloat = 2.0
     let buttonBorderColor: CGColor = UIColor(red: 255.0, green: 255.0, blue: 255.0, alpha: 1.0).cgColor
+    let defaults = UserDefaults.standard
     var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
     var quantity: Int?
     let quantityDefaultValue = 10
     let people = [Person]()
     let personController = PersonController()
+    
+    // Keys
+    let kQuantityKey = "quantity"
     
     // Outlets
     @IBOutlet weak var clearButton: UIButton!
@@ -46,7 +50,11 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
         
         initializeFetchedResultsController()
         
-        setQuantityValue(self.quantityDefaultValue)
+        if let preservedQuantity = defaults.object(forKey: kQuantityKey) as? Int {
+            setQuantityValue(preservedQuantity)
+        } else {
+            setQuantityValue(self.quantityDefaultValue)
+        }
         
         configureButtons()
         configureNavigationBar()
@@ -79,6 +87,8 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
     @IBAction func resetButtonTapped(_ sender: UIButton) {
         
         setQuantityValue(self.quantityDefaultValue)
+        
+        defaults.removeObject(forKey: kQuantityKey)
         
         guard let people = fetchedResultsController?.fetchedObjects as? [Person] else {
             
@@ -147,6 +157,7 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
     func setQuantityValue(_ quantity: Int) {
         
         self.quantity = quantity
+        defaults.set(quantity, forKey: kQuantityKey)
         quantityStepper.value = Double(quantity)
         quantityLabel.text = "\(quantity)"
     }
