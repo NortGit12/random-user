@@ -25,6 +25,7 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
     let quantityDefaultValue = 10
     let people = [Person]()
     let personController = PersonController()
+    var refreshControl = UIRefreshControl()
     
     // Keys
     let kQuantityKey = "quantity"
@@ -49,6 +50,12 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
         self.tableView.delegate = self
         
         initializeFetchedResultsController()
+        
+        // Configure the refresh control
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.refreshControl.addTarget(self, action: #selector(self.handlePullToRefresh(_:)), for: UIControlEvents.valueChanged)
+        self.refreshControl.backgroundColor = .yellow
+        self.tableView?.addSubview(self.refreshControl)
         
         if let preservedQuantity = defaults.object(forKey: kQuantityKey) as? Int {
             setQuantityValue(preservedQuantity)
@@ -84,24 +91,20 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
         setQuantityValue(Int(sender.value))
     }
     
+    func handlePullToRefresh(_ sender: UIRefreshControl) {
+        
+        reset(returnQuantityToDefault: false)
+        
+        if let quantityString = self.quantityLabel.text, let quantity = Int(quantityString) {
+            personController.getRandomPeople(quantity: quantity)
+        }
+        
+        self.refreshControl.endRefreshing()
+    }
+    
     @IBAction func resetButtonTapped(_ sender: UIButton) {
         
-        setQuantityValue(self.quantityDefaultValue)
-        
-        defaults.removeObject(forKey: kQuantityKey)
-        
-        guard let people = fetchedResultsController?.fetchedObjects as? [Person] else {
-            
-            NSLog("Error getting all people.")
-            return
-        }
-        
-        for person in people {
-            PersonController.deletePerson(person)
-        }
-        
-        refreshFetchedResults()
-        self.tableView.reloadData()
+        reset(returnQuantityToDefault: true)
     }
     
     //==================================================
@@ -157,6 +160,28 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
         } catch let error as NSError {
             NSLog("Error fetching people: \(error.localizedDescription)")
         }
+    }
+    
+    func reset(returnQuantityToDefault: Bool) {
+        
+        if returnQuantityToDefault {
+            setQuantityValue(self.quantityDefaultValue)
+        }
+        
+        defaults.removeObject(forKey: kQuantityKey)
+        
+        guard let people = fetchedResultsController?.fetchedObjects as? [Person] else {
+            
+            NSLog("Error getting all people.")
+            return
+        }
+        
+        for person in people {
+            PersonController.deletePerson(person)
+        }
+        
+        refreshFetchedResults()
+        self.tableView.reloadData()
     }
     
     func setQuantityValue(_ quantity: Int) {
