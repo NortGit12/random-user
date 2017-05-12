@@ -23,13 +23,16 @@ class ImageController {
             if let error = error {
                 
                 NSLog("Erorr: \(error.localizedDescription)")
+                completion(nil)
                 return
             }
             
             if let data = data {
                 
+                let image = UIImage(data: data)
+                
                 DispatchQueue.main.async {
-                    completion(UIImage(data: data))
+                    completion(image)
                 }
             }
         }
