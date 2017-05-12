@@ -33,10 +33,10 @@ public class Person: NSManagedObject {
         , email: String
         , thumbnailImageData: NSData? = nil
         , thumbnailImageURL: String? = nil
-        , context: NSManagedObjectContext = PersistenceController.moc) {
+        , context: NSManagedObjectContext? = PersonController.moc) {
         
         // Only get "Person" Entities
-        guard let entity = NSEntityDescription.entity(forEntityName: "Person"
+        guard let context = context, let entity = NSEntityDescription.entity(forEntityName: "Person"
             , in: context) else {
                 
                 NSLog("Error attempting to access the entity in the context.")
@@ -73,10 +73,8 @@ public class Person: NSManagedObject {
                 return nil
         }
         
-        let context = PersistenceController.moc
-        
         // Only get "Person" Entities
-        guard let entity = NSEntityDescription.entity(forEntityName: "Person"
+        guard let context = PersonController.moc, let entity = NSEntityDescription.entity(forEntityName: "Person"
             , in: context) else {
                 
                 NSLog("Error attempting to access the entity in the context.")

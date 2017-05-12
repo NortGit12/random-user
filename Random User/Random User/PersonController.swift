@@ -21,10 +21,21 @@ class PersonController {
     //==================================================
     
     // General
+    static var appDelegate: AppDelegate?
     var delegate: PeopleControllerDelegate?
+    static var moc: NSManagedObjectContext?
     
     // Network
     static let getRandomPeopleBaseURL = "https://randomuser.me/api/"
+    
+    //==================================================
+    // MARK: - Initializers
+    //==================================================
+    
+    init() {
+        PersonController.appDelegate = UIApplication.shared.delegate as? AppDelegate
+        PersonController.moc = PersonController.appDelegate?.persistentContainer.viewContext
+    }
     
     //==================================================
     // MARK: - General Methods
@@ -53,27 +64,27 @@ class PersonController {
             return nil
         }
         
-        PersistenceController.saveContext()
+        PersonController.appDelegate?.saveContext()
         
         return person
     }
     
     static func deletePerson(_ person: Person) {
         
-        PersistenceController.moc.delete(person)
-        PersistenceController.saveContext()
+        PersonController.moc?.delete(person)
+        PersonController.appDelegate?.saveContext()
     }
     
     static func getPersonByObjectID(_ objectID: String) -> Person? {
         
         guard let personObjectIDURIRep = URL(string: objectID),
-            let personObjectID = PersistenceController.moc.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: personObjectIDURIRep) else {
+            let personObjectID = PersonController.moc?.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: personObjectIDURIRep) else {
                 
                 NSLog("Error getting the person's object ID.")
                 return nil
         }
         
-        guard let person = try? PersistenceController.moc.existingObject(with: personObjectID) as? Person else {
+        guard let person = try? PersonController.moc?.existingObject(with: personObjectID) as? Person else {
             NSLog("Error getting the person from its object ID.")
             return nil
         }
@@ -88,7 +99,7 @@ class PersonController {
         person.email = email
         person.thumbnailImageData = thumbnailImageData
         
-        PersistenceController.saveContext()
+        PersonController.appDelegate?.saveContext()
     }
     
     //==================================================
@@ -143,7 +154,7 @@ class PersonController {
                 }
                 
                 _ = arrayOfPeopleDictionaries.flatMap{ Person(dictionary: $0) }
-                PersistenceController.saveContext()
+                PersonController.appDelegate?.saveContext()
                 
                 completion(people)
             }

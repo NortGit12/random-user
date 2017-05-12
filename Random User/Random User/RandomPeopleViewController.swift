@@ -138,8 +138,13 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
         request.sortDescriptors = [NSSortDescriptor(key: "firstName", ascending: true)
             , NSSortDescriptor(key: "lastName", ascending: true)]
         
+        guard let moc = PersonController.moc else {
+            NSLog("Error unwrapping the managed object context.")
+            return
+        }
+        
         fetchedResultsController = NSFetchedResultsController(fetchRequest: request
-            , managedObjectContext: PersistenceController.moc, sectionNameKeyPath: nil, cacheName: nil)
+            , managedObjectContext: moc, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultsController?.delegate = self
         
         refreshFetchedResults()
@@ -196,13 +201,21 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
         
         switch type {
         case .delete:
-            self.tableView.deleteRows(at: [indexPath! as IndexPath], with: .automatic)
+            if let indexPath = indexPath {
+                self.tableView.deleteRows(at: [indexPath as IndexPath], with: .automatic)
+            }
         case .insert:
-            self.tableView.insertRows(at: [newIndexPath! as IndexPath], with: .fade)
+            if let newIndexPath = newIndexPath {
+                self.tableView.insertRows(at: [newIndexPath as IndexPath], with: .fade)
+            }
         case .move:
-            self.tableView.moveRow(at: indexPath! as IndexPath, to: newIndexPath! as IndexPath)
+            if let indexPath = indexPath, let newIndexPath = newIndexPath {
+                self.tableView.moveRow(at: indexPath as IndexPath, to: newIndexPath as IndexPath)
+            }
         case .update:
-            self.tableView.reloadRows(at: [indexPath! as IndexPath], with: .automatic)
+            if let indexPath = indexPath {
+                self.tableView.reloadRows(at: [indexPath as IndexPath], with: .automatic)
+            }
         }
     }
     

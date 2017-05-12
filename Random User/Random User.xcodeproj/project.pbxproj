@@ -15,7 +15,6 @@
 		1F54CA7C1EC5160600F3E32F /* Random_UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F54CA7B1EC5160600F3E32F /* Random_UserTests.swift */; };
 		1F54CA871EC5160600F3E32F /* Random_UserUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F54CA861EC5160600F3E32F /* Random_UserUITests.swift */; };
 		1F54CAA01EC51E2B00F3E32F /* PersonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F54CA9F1EC51E2B00F3E32F /* PersonController.swift */; };
-		1F54CAA71EC51F9A00F3E32F /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F54CAA61EC51F9A00F3E32F /* PersistenceController.swift */; };
 		1F54CAAA1EC520BB00F3E32F /* Person+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F54CAA81EC520BB00F3E32F /* Person+CoreDataClass.swift */; };
 		1F54CAAB1EC520BB00F3E32F /* Person+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F54CAA91EC520BB00F3E32F /* Person+CoreDataProperties.swift */; };
 		1F78438B1EC5F8120028D522 /* RandomPeopleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F78438A1EC5F8120028D522 /* RandomPeopleViewController.swift */; };
@@ -56,7 +55,6 @@
 		1F54CA861EC5160600F3E32F /* Random_UserUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Random_UserUITests.swift; sourceTree = "<group>"; };
 		1F54CA881EC5160600F3E32F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F54CA9F1EC51E2B00F3E32F /* PersonController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonController.swift; sourceTree = "<group>"; };
-		1F54CAA61EC51F9A00F3E32F /* PersistenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		1F54CAA81EC520BB00F3E32F /* Person+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Person+CoreDataClass.swift"; path = "../Person+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1F54CAA91EC520BB00F3E32F /* Person+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Person+CoreDataProperties.swift"; path = "../Person+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1F78438A1EC5F8120028D522 /* RandomPeopleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomPeopleViewController.swift; sourceTree = "<group>"; };
@@ -166,7 +164,6 @@
 			children = (
 				1F7843911EC615210028D522 /* ImageController.swift */,
 				1F78438F1EC5FDAD0028D522 /* NetworkController.swift */,
-				1F54CAA61EC51F9A00F3E32F /* PersistenceController.swift */,
 				1F54CA9F1EC51E2B00F3E32F /* PersonController.swift */,
 			);
 			name = Controllers;
@@ -319,7 +316,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F54CAAB1EC520BB00F3E32F /* Person+CoreDataProperties.swift in Sources */,
-				1F54CAA71EC51F9A00F3E32F /* PersistenceController.swift in Sources */,
 				1F54CAAA1EC520BB00F3E32F /* Person+CoreDataClass.swift in Sources */,
 				1F78438E1EC5F83C0028D522 /* RandomPeopleTableViewCell.swift in Sources */,
 				1F78438B1EC5F8120028D522 /* RandomPeopleViewController.swift in Sources */,
