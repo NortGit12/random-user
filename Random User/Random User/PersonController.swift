@@ -17,6 +17,13 @@ protocol PeopleControllerDelegate {
 class PersonController {
     
     //==================================================
+    // MARK: - _Properties
+    //==================================================
+    
+    // General
+    var delegate: PeopleControllerDelegate?
+    
+    //==================================================
     // MARK: - CRUD Methods
     //==================================================
     

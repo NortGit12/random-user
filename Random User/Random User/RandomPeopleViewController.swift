@@ -39,14 +39,25 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        personController.delegate = self
+        
         self.tableView.dataSource = self
         self.tableView.delegate = self
+        
+        initializeFetchedResultsController()
         
         setQuantityValue(self.quantityDefaultValue)
         
         configureButtons()
         configureNavigationBar()
         configureQuantityStepper()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        refreshFetchedResults()
+        tableView.reloadData()
     }
     
     //==================================================
@@ -95,11 +106,81 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
         quantityStepper.maximumValue = 25
     }
     
+    func initializeFetchedResultsController() {
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Person")
+        request.sortDescriptors = [NSSortDescriptor(key: "firstName", ascending: true)
+            , NSSortDescriptor(key: "lastName", ascending: true)]
+        
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: request
+            , managedObjectContext: PersistenceController.moc, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController?.delegate = self
+        
+        refreshFetchedResults()
+    }
+    
+    func refreshFetchedResults() {
+        
+        do {
+            try fetchedResultsController?.performFetch()
+        } catch let error as NSError {
+            NSLog("Error fetching people: \(error.localizedDescription)")
+        }
+    }
+    
     func setQuantityValue(_ quantity: Int) {
         
         self.quantity = quantity
         quantityStepper.value = Double(quantity)
         quantityLabel.text = "\(quantity)"
+    }
+    
+    //==================================================
+    // MARK: - NSFetchedResultsControllerDelegate
+    //==================================================
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(controller: NSFetchedResultsController<NSFetchRequestResult>
+        , didChangeSection sectionInfo: NSFetchedResultsSectionInfo
+        , atIndex sectionIndex: Int
+        , forChangeType type: NSFetchedResultsChangeType) {
+        
+        switch type {
+        case .delete:
+            self.tableView.deleteSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .automatic)
+        case .insert:
+            self.tableView.insertSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .automatic)
+        case .move:
+            self.tableView.deleteSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .automatic)
+            self.tableView.insertSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .automatic)
+        case .update:
+            self.tableView.reloadSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .automatic)
+        }
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>
+        , didChange anObject: Any
+        , at indexPath: IndexPath?
+        , for type: NSFetchedResultsChangeType
+        , newIndexPath: IndexPath?) {
+        
+        switch type {
+        case .delete:
+            self.tableView.deleteRows(at: [indexPath! as IndexPath], with: .automatic)
+        case .insert:
+            self.tableView.insertRows(at: [newIndexPath! as IndexPath], with: .fade)
+        case .move:
+            self.tableView.moveRow(at: indexPath! as IndexPath, to: newIndexPath! as IndexPath)
+        case .update:
+            self.tableView.reloadRows(at: [indexPath! as IndexPath], with: .automatic)
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
     }
     
     //==================================================
@@ -117,7 +198,7 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 1
+        return fetchedResultsController?.fetchedObjects?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -127,18 +208,9 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
             return UITableViewCell()
         }
         
-        guard let profileImage = UIImage(named: "calvin"),
-            let profileThumbnailData = UIImagePNGRepresentation(profileImage) else {
-                
-                return UITableViewCell()
+        if let person = fetchedResultsController?.object(at: indexPath) as? Person {
+            cell.person = person
         }
-        
-        let person = PersonController.createPerson(firstName: "First",
-                                                   lastName: "LastName",
-                                                   email: "e.mail@test.com",
-                                                   thumbnailImageData: profileThumbnailData as NSData)
-        
-        cell.person = person
         
         return cell
     }
@@ -152,17 +224,16 @@ class RandomPeopleViewController: UIViewController, UITableViewDataSource, UITab
      }
      */
     
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }    
-     }
-     */
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            
+            if let person = fetchedResultsController?.object(at: indexPath) as? Person {
+                PersonController.deletePerson(person)
+            }
+        }
+    }
     
     /*
      // Override to support rearranging the table view.
