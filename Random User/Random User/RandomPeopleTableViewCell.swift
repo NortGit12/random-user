@@ -37,8 +37,11 @@ class RandomPeopleTableViewCell: UITableViewCell {
         self.emailLabel.text = person.email
         self.nameLabel.text = "\(person.firstName) \(person.lastName)"
         
-        if let profileThumbnailImageData = person.thumbnailImageData {
-            self.profileImageview.image = UIImage(data: profileThumbnailImageData as Data)
+        if let thumbnailImageURLString = person.thumbnailImageURL {
+            
+            ImageController.imageForURL(urlString: thumbnailImageURLString, completion: { (image) in
+                self.profileImageview.image = image
+            })
         }
     }
 }

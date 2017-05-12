@@ -21,6 +21,7 @@
 		1F78438B1EC5F8120028D522 /* RandomPeopleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F78438A1EC5F8120028D522 /* RandomPeopleViewController.swift */; };
 		1F78438E1EC5F83C0028D522 /* RandomPeopleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F78438D1EC5F83C0028D522 /* RandomPeopleTableViewCell.swift */; };
 		1F7843901EC5FDAD0028D522 /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F78438F1EC5FDAD0028D522 /* NetworkController.swift */; };
+		1F7843921EC615210028D522 /* ImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7843911EC615210028D522 /* ImageController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		1F78438A1EC5F8120028D522 /* RandomPeopleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomPeopleViewController.swift; sourceTree = "<group>"; };
 		1F78438D1EC5F83C0028D522 /* RandomPeopleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomPeopleTableViewCell.swift; sourceTree = "<group>"; };
 		1F78438F1EC5FDAD0028D522 /* NetworkController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
+		1F7843911EC615210028D522 /* ImageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,8 +164,9 @@
 		1F54CAA51EC51F8600F3E32F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				1F54CAA61EC51F9A00F3E32F /* PersistenceController.swift */,
+				1F7843911EC615210028D522 /* ImageController.swift */,
 				1F78438F1EC5FDAD0028D522 /* NetworkController.swift */,
+				1F54CAA61EC51F9A00F3E32F /* PersistenceController.swift */,
 				1F54CA9F1EC51E2B00F3E32F /* PersonController.swift */,
 			);
 			name = Controllers;
@@ -320,6 +323,7 @@
 				1F54CAAA1EC520BB00F3E32F /* Person+CoreDataClass.swift in Sources */,
 				1F78438E1EC5F83C0028D522 /* RandomPeopleTableViewCell.swift in Sources */,
 				1F78438B1EC5F8120028D522 /* RandomPeopleViewController.swift in Sources */,
+				1F7843921EC615210028D522 /* ImageController.swift in Sources */,
 				1F54CA641EC5160600F3E32F /* AppDelegate.swift in Sources */,
 				1F54CAA01EC51E2B00F3E32F /* PersonController.swift in Sources */,
 				1F54CA6C1EC5160600F3E32F /* RandomUser.xcdatamodeld in Sources */,
